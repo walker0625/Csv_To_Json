@@ -1,5 +1,4 @@
-# Csv_To_Json
-(코빗 Exchange Admin Console Developer 지원자 전민우)
+# 코빗 Exchange Admin Console Developer 지원자 전민우(jeonminwoo0625@gmail.com)
 
 주어진 korbitKRW.csv 파일을 읽어들여 json 형태로 바꾸는 과제를 수행했습니다.
 
