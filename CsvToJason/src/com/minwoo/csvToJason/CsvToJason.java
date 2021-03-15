@@ -1,6 +1,6 @@
 package com.minwoo.csvToJason;
 
-import java.io.FileNotFoundException;
+import java.io.FileNotFoundException; 
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -19,11 +19,11 @@ public class CsvToJason {
 		try {
 			CSVReader csvDatas = new CSVReader(new FileReader("korbitKRW.csv"));
 			List<OneDayTradeDataDto> dtoList = separateOneDayData(csvDatas);
-			
+
 			// Output : JSON Array
 			String[] jsonArray = convertJson(dtoList);
-			
-			for(String json : jsonArray) {
+
+			for (String json : jsonArray) {
 				System.out.println(json);
 			}
 		} catch (FileNotFoundException e) {
@@ -34,27 +34,26 @@ public class CsvToJason {
 	public static List<OneDayTradeDataDto> separateOneDayData(CSVReader csvDatas) {
 		List<OneDayTradeDataDto> dtoList = new ArrayList<OneDayTradeDataDto>();
 		List<String[]> oneDayDatas = new ArrayList<String[]>();
-		String[] nextLine = null;
+		final int timeStampGap = 86400; // 1일(86400초)
 		int startTimeStamp = 0;
 		int nextTimeStamp = 0;
 
 		try {
-			while (csvDatas.readNext() != null) {
-				nextLine = csvDatas.readNext();
+			// firstLine의 startTimeStamp 초기화 및 dto 저장
+			String[] nextLine = csvDatas.readNext();
+			startTimeStamp = Integer.parseInt(nextLine[0]);
+			oneDayDatas.add(nextLine);
 
-				if (startTimeStamp == 0) {
-					startTimeStamp = Integer.parseInt(nextLine[0]);
-				} else if (nextLine != null) {
-					nextTimeStamp = Integer.parseInt(nextLine[0]);
-				}
+			while ((nextLine = csvDatas.readNext()) != null) {
+				nextTimeStamp = Integer.parseInt(nextLine[0]);
 
 				// json 객체 구분 기준 = 1일(86400초)
-				if (nextTimeStamp - startTimeStamp <= 86400) {
+				if (nextTimeStamp - startTimeStamp <= timeStampGap) {
 					oneDayDatas.add(nextLine);
 				} else {
-					// 1일 data가 모이면 data를 계산(평균, 가중평균 등) 메소드로 넘기고, 계산 결과 dto를 return할 List에 추가 
+					// 1일 data가 모이면 data를 계산(평균, 가중평균 등) 메소드로 넘기고, 계산 결과 dto를 return할 List에 추가
 					dtoList.add(calculateOneDayTradeDatas(oneDayDatas));
-					
+
 					// 초기화
 					oneDayDatas = new ArrayList<String[]>();
 					oneDayDatas.add(nextLine);
@@ -96,7 +95,8 @@ public class CsvToJason {
 
 			totalTradePrice += thisIndexPrice;
 			totalTradeCount++;
-			totalWeightTradePrice = totalWeightTradePrice.add(new BigDecimal(oneDayDatas.get(i)[2]).multiply(new BigDecimal(thisIndexPrice)));
+			totalWeightTradePrice = totalWeightTradePrice
+					.add(new BigDecimal(oneDayDatas.get(i)[2]).multiply(new BigDecimal(thisIndexPrice)));
 
 			volume = volume.add(new BigDecimal(oneDayDatas.get(i)[2]));
 		}
@@ -115,7 +115,7 @@ public class CsvToJason {
 
 		return oneDayTradeDataDto;
 	}
-	
+
 	public static String[] convertJson(List<OneDayTradeDataDto> dtoList) {
 		ObjectMapper mapper = new ObjectMapper();
 		int dtoListSize = dtoList.size();
@@ -128,7 +128,7 @@ public class CsvToJason {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return jsonArray;
 	}
 
