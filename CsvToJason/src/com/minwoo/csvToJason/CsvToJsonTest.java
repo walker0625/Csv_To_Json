@@ -1,4 +1,4 @@
-package com.minwoo.csvToJason;
+package com.minwoo.csvToJson;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -11,9 +11,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CsvToJasonTest {
+public class CsvToJsonTest {
         // Test를 위하여 1378189897(startTimeStamp) + 86400 내의 Data를 출력하고
-	// 직접 계산한 후 해당 '계산값'이 CsvToJason의 결과 'dto(json 객체)'와 같은지 Test
+	// 직접 계산한 후 해당 '계산값'이 CsvToJson의 결과 'dto(json 객체)'와 같은지 Test
 	
 	// 1378189897 160000.000000000000 0.100000000000
 	// 1378224414 150000.000000000000 0.200000000000
@@ -25,7 +25,7 @@ public class CsvToJasonTest {
 	@Test
 	public void testFirstResult() throws CsvValidationException, IOException {
 		CSVReader csvDatas = new CSVReader(new FileReader("korbitKRW.csv"));
-		List<OneDayTradeDataDto> dtoList = CsvToJason.separateOneDayData(csvDatas);
+		List<OneDayTradeDataDto> dtoList = CsvToJson.separateOneDayData(csvDatas);
 		
 		assertEquals(1378189897, dtoList.get(0).getStart());
 		assertEquals(1378271222, dtoList.get(0).getEnd());
@@ -56,4 +56,5 @@ public class CsvToJasonTest {
 		String removeResult = intPutString.substring(0, intPutString.indexOf("."));
 		assertEquals(expectResult, removeResult);
 	}
+	
 }
