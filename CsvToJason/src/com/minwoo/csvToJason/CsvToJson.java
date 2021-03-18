@@ -1,4 +1,4 @@
-package com.minwoo.csvToJason;
+package com.minwoo.csvToJson;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,7 +13,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CsvToJason {
+public class CsvToJson {
 
 	public static void main(String[] args) {
 		try {
