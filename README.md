@@ -4,6 +4,6 @@
 
 사용 언어 : Java
 
-사용 라이브러리 : openCsv, commons-lang3, lombok, jackson
+사용 라이브러리 : openCsv, commons-lang3, lombok, jackson, junit
 
 좋은 기회와 경험을 주셔서 감사합니다.
