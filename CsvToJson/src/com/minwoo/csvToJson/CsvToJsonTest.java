@@ -3,17 +3,16 @@ package com.minwoo.csvToJson;
 import com.opencsv.CSVReader; 
 import com.opencsv.exceptions.CsvValidationException;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 public class CsvToJsonTest {
-    // Test를 위하여 1378189897(startTimeStamp) + 86400 내의 Data를 출력하고
+        // Test를 위하여 1378189897(startTimeStamp) + 86400 내의 Data를 출력하고
 	// 직접 계산한 후 해당 '계산값'이 CsvToJson의 결과 'dto(json 객체)'와 같은지 Test
 	
 	// 1378189897 160000.000000000000 0.100000000000
@@ -57,4 +56,5 @@ public class CsvToJsonTest {
 		String removeResult = intPutString.substring(0, intPutString.indexOf("."));
 		assertEquals(expectResult, removeResult);
 	}
+	
 }
