@@ -1,15 +1,15 @@
 package com.minwoo.csvToJason;
 
-import static org.junit.jupiter.api.Assertions.assertEquals; 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+import org.junit.jupiter.api.Test;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
-
-import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvValidationException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CsvToJasonTest {
         // Test를 위하여 1378189897(startTimeStamp) + 86400 내의 Data를 출력하고
@@ -21,9 +21,9 @@ public class CsvToJasonTest {
 	// 1378271222 180000.000000000000 0.500000000000
 	
 	// 1378343798 150000.000000000000 0.100000000000
-	
+
 	@Test
-	void testFirstResult() throws CsvValidationException, IOException {
+	public void testFirstResult() throws CsvValidationException, IOException {
 		CSVReader csvDatas = new CSVReader(new FileReader("korbitKRW.csv"));
 		List<OneDayTradeDataDto> dtoList = CsvToJason.separateOneDayData(csvDatas);
 		
@@ -36,5 +36,24 @@ public class CsvToJasonTest {
 		assertEquals("167500", dtoList.get(0).getAverage());
 		assertEquals("177861", dtoList.get(0).getWeightedAverage());
 		assertEquals("3.74000000", dtoList.get(0).getVolume());
+	}
+
+	@Test
+	public void testGetPriceXvolume() {
+		 BigDecimal expectResult = new BigDecimal("529200.000000000000");
+		 int inputPrice = 180000;
+		 String inputVolume = "2.940000000000";
+
+		 BigDecimal multiplyResult = new BigDecimal(inputPrice).multiply(new BigDecimal(inputVolume));
+		 assertEquals(expectResult, multiplyResult);
+	}
+
+	@Test
+	public void testRemoveUnderZero() {
+		String expectResult = "160000";
+		String intPutString = "160000.000000000000";
+
+		String removeResult = intPutString.substring(0, intPutString.indexOf("."));
+		assertEquals(expectResult, removeResult);
 	}
 }
